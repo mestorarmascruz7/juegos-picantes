@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ff4b2b">
+    <title>Frases o Chupito</title>
+    <style>
+        /* Animación de fondo */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(-45deg, #ff416c, #ff4b2b, #4b6cb7, #182848);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .menu a {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .menu a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .contenido {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .nivel-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .nivel-selector button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nivel-selector button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nivel-selector button:active {
+            transform: translateY(0);
+        }
+
+        .nivel-selector button i {
+            font-size: 1.5rem;
+        }
+
+        button.generar {
+            background: white;
+            color: #ff4b2b;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button.generar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        button.generar:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .pregunta {
+            margin-top: 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+    <!-- Iconos de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Menú de navegación -->
+        <div class="menu">
+            <a href="index.html">Inicio</a>
+            <a href="yo-nunca.html">Yo nunca</a>
+            <a href="verdad-reto.html">Verdad o Reto</a>
+            <a href="chupito.html">Frases o Chupito</a>
+            <a href="publicidad.html">Publicidad</a>
+        </div>
+
+        <!-- Contenido de "Frases o Chupito" -->
+        <div class="contenido">
+            <h1>Frases o Chupito</h1>
+            <div class="nivel-selector">
+                <button onclick="seleccionarNivel('suave')">
+                    <i class="fas fa-smile"></i> Suave
+                </button>
+                <button onclick="seleccionarNivel('moderado')">
+                    <i class="fas fa-meh"></i> Moderado
+                </button>
+                <button onclick="seleccionarNivel('extremo')">
+                    <i class="fas fa-grin-tongue-wink"></i> Extremo
+                </button>
+            </div>
+            <button class="generar" onclick="generarPregunta()">Generar frase</button>
+            <div class="pregunta" id="pregunta"></div>
+        </div>
+    </div>
+
+    <!-- Script para generar preguntas -->
+    <script>
+        let nivelSeleccionado = 'suave'; // Nivel por defecto
+
+        // Lista de preguntas para "Frases o Chupito"
+        const frasesChupito = {
+            suave: [
+                "¿Has sentido que una mirada te desnudaba por completo?",
+                "¿Has tenido que fingir que no te gustaba alguien cuando en realidad sí?",
+                "¿Has recibido un cumplido que te hizo sonrojar demasiado?",
+                "¿Alguna vez has sentido nervios antes de besar a alguien?",
+                "¿Has mirado a alguien y pensado en qué pasaría si estuvieran solos?",
+                "¿Has dejado que alguien te acariciara de una forma más intensa sin que fuera obvio?",
+                "¿Has usado un perfume solo para atraer a alguien?",
+                "¿Has sentido mariposas al recibir un mensaje coqueto?",
+                "¿Has recibido un mensaje coqueto a media noche?",
+                "¿Has jugado a 'provocar' con alguien sin que se diera cuenta?",
+                "¿Te han besado y sentido que el mundo desaparecía por un momento?",
+                "¿Has querido besar a alguien y te has arrepentido de no hacerlo?",
+                "¿Has cruzado miradas con alguien y sentido electricidad?",
+                "¿Has tenido una conversación que empezó inocente pero se puso cada vez más atrevida?",
+                "¿Has sentido deseo por alguien que apenas conocías?",
+                "¿Has usado ropa que sabías que haría voltear a alguien a verte?",
+                "¿Has enviado un emoji con doble intención?",
+                "¿Has sentido que una canción describía perfectamente lo que querías hacer con alguien?",
+                "¿Has recibido un mensaje que hizo que tu corazón latiera más rápido?",
+                "¿Has deseado estar solo/a con alguien en un momento perfecto?",
+                "¿Has jugado a tocar a alguien de forma inocente pero con doble intención?",
+                "¿Has dejado a alguien con la duda de si realmente querías algo más?",
+                "¿Has probado besar a alguien con los ojos vendados?",
+                "¿Has sentido que alguien jugaba con tu mente con solo palabras?",
+                "¿Has pensado en alguien mientras escuchabas una canción romántica?",
+                "¿Te han dejado con ganas de más con solo un beso?",
+                "¿Has escrito un mensaje atrevido y luego lo borraste?",
+                "¿Has sentido que alguien era simplemente irresistible?",
+                "¿Has recibido una indirecta demasiado directa en persona?",
+                "¿Has querido estar con alguien y no lo hiciste por miedo al qué dirán?"
+            ],
+            moderado: [
+                "¿Has tenido sueños calientes con alguien que no esperabas?",
+                "¿Has tenido un crush con un profesor/a o jefe/a?",
+                "¿Alguna vez te han mandado un mensaje tan caliente que te puso nervioso/a?",
+                "¿Has sido infiel o te han sido infiel?",
+                "¿Cuál ha sido la excusa más ridícula que has usado para evitar estar con alguien?",
+                "¿Has intentado seducir a alguien solo con miradas?",
+                "¿Has recibido o enviado fotos sugerentes sin que te las pidieran?",
+                "¿Has tenido un momento de pasión en un lugar público pero sin llegar hasta el final?",
+                "¿Has besado a alguien solo para provocar celos?",
+                "¿Has jugado 'Verdad o Reto' y aceptado un reto demasiado atrevido?",
+                "¿Cuál es la parte de tu cuerpo que más te gusta que te toquen?",
+                "¿Has sentido deseo por alguien a quien no deberías?",
+                "¿Has tenido un 'casi algo' con alguien de tu grupo de amigos?",
+                "¿Cuál ha sido la situación más inesperada en la que terminaste besando a alguien?",
+                "¿Cuál ha sido el mensaje más atrevido que has enviado?",
+                "¿Has dejado a alguien con ganas solo para divertirte?",
+                "¿Te han dejado en 'visto' después de enviar algo atrevido?",
+                "¿Has coqueteado con alguien a pesar de saber que no podías tener nada con él/ella?",
+                "¿Cuál ha sido tu peor experiencia en la cama?",
+                "¿Te has arrepentido de no besar a alguien cuando tuviste la oportunidad?",
+                "¿Has usado la ropa interior de alguien más o alguien ha usado la tuya?",
+                "¿Has jugado con alguien en el cine o en un bar sin que nadie lo notara?",
+                "¿Te han susurrado algo en el oído que te haya puesto nervioso/a?",
+                "¿Has salido con alguien solo por atracción física?",
+                "¿Has probado hacerlo en una casa ajena sin permiso?",
+                "¿Has usado una excusa para quedarte a dormir con alguien?",
+                "¿Has dejado marcas en alguien sin darte cuenta?",
+                "¿Has probado hacerlo de madrugada cuando todos dormían cerca?",
+                "¿Te han dicho que eres bueno/a en algo específico en la cama?",
+                "¿Has provocado a alguien cuando sabías que no podían hacer nada al respecto?"
+            ],
+            extremo: [
+                "¿Cuál ha sido tu experiencia más extrema en la cama?",
+                "¿Con cuántas personas has estado en el mismo mes?",
+                "¿Has tenido un encuentro con alguien y luego con otra persona la misma noche?",
+                "¿Cuál es el lugar más riesgoso donde lo has hecho?",
+                "¿Has grabado algún video íntimo? ¿Dónde está ahora?",
+                "¿Has probado el bondage o el juego de roles en la cama?",
+                "¿Has estado con alguien sabiendo que tenía pareja?",
+                "¿Has tenido fantasías con alguien que está en esta habitación?",
+                "¿Alguna vez has mandado un mensaje caliente a la persona equivocada?",
+                "¿Te han atrapado en plena acción? ¿Quién fue?",
+                "¿Has probado hacerlo en el trabajo o en una reunión importante?",
+                "¿Cuál es el fetiche más raro que has probado o te gustaría probar?",
+                "¿Te han pedido algo en la cama que te dejó en shock? ¿Qué fue?",
+                "¿Has usado juguetes en pareja? ¿Cuál fue el mejor?",
+                "¿Te has arrepentido de acostarte con alguien? ¿Quién y por qué?",
+                "¿Has tenido un trío o más? ¿Cómo fue?",
+                "¿Has fingido un orgasmo? ¿Cuántas veces?",
+                "¿Has probado hacerlo en público sin que nadie lo notara?",
+                "¿Cuál es tu mayor secreto sexual?",
+                "¿Cuál ha sido la experiencia más intensa que has tenido con alguien mayor o menor que tú?",
+                "¿Has probado hacerlo en la casa de alguien sin que lo supiera?",
+                "¿Alguna vez te han pedido grabar un video y te negaste?",
+                "¿Has mandado nudes a alguien que solo conocías por internet?",
+                "¿Qué es lo más sucio que te han dicho en la cama?",
+                "¿Has probado hacerlo en el mar o en una piscina? ¿Fue bueno?",
+                "¿Has tenido un encuentro sin saber el nombre de la persona?",
+                "¿Cuál ha sido la situación más inesperada en la que terminaste en la cama con alguien?",
+                "¿Has usado algún disfraz o lencería especial para sorprender a alguien?",
+                "¿Cuál ha sido la experiencia más loca que has tenido de viaje?",
+                "¿Has seducido a alguien solo para ver si podías lograrlo?"
+            ]
+        };
+
+        function seleccionarNivel(nivel) {
+            nivelSeleccionado = nivel;
+            const botones = document.querySelectorAll('.nivel-selector button');
+            botones.forEach(boton => boton.style.background = 'rgba(255, 255, 255, 0.2)');
+            event.target.style.background = 'rgba(255, 255, 255, 0.4)';
+        }
+
+        function generarPregunta() {
+            const preguntaElement = document.getElementById('pregunta');
+            const frases = frasesChupito[nivelSeleccionado];
+            const preguntaAleatoria = frases[Math.floor(Math.random() * frases.length)];
+            preguntaElement.innerText = preguntaAleatoria;
+        }
+    </script>
+</body>
+</html>

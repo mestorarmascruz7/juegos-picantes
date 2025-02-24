@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ff4b2b">
+    <title>Juegos de Fiesta</title>
+    <style>
+        /* Animación de fondo */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(-45deg, #ff416c, #ff4b2b, #4b6cb7, #182848);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .menu a {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .menu a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .menu a i {
+            font-size: 1.5rem;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+    </style>
+    <!-- Iconos de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Título principal -->
+        <h1>Juegos de Fiesta</h1>
+
+        <!-- Menú de navegación -->
+        <div class="menu">
+            <a href="yo-nunca.html">
+                <i class="fas fa-fire"></i> Yo Nunca
+            </a>
+            <a href="verdad-reto.html">
+                <i class="fas fa-question"></i> Verdad o Reto
+            </a>
+            <a href="chupito.html">
+                <i class="fas fa-glass-cheers"></i> Frases o Chupito
+            </a>
+            <a href="publicidad.html">
+                <i class="fas fa-ad"></i> Publicidad
+            </a>
+        </div>
+
+        <!-- Pie de página -->
+        <footer>
+            <p>© 2025 Juegos de Fiesta. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ff4b2b">
+    <title>Yo nunca</title>
+    <style>
+        /* Animación de fondo */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(-45deg, #ff416c, #ff4b2b, #4b6cb7, #182848);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .menu a {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .menu a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .contenido {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .nivel-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .nivel-selector button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nivel-selector button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nivel-selector button:active {
+            transform: translateY(0);
+        }
+
+        .nivel-selector button i {
+            font-size: 1.5rem;
+        }
+
+        button.generar {
+            background: white;
+            color: #ff4b2b;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button.generar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        button.generar:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .pregunta {
+            margin-top: 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+    <!-- Iconos de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Menú de navegación -->
+        <div class="menu">
+            <a href="index.html">Inicio</a>
+            <a href="yo-nunca.html">Yo nunca</a>
+            <a href="verdad-reto.html">Verdad o Reto</a>
+            <a href="chupito.html">Frases o Chupito</a>
+            <a href="publicidad.html">Publicidad</a>
+        </div>
+
+        <!-- Contenido de "Yo nunca" -->
+        <div class="contenido">
+            <h1>Yo nunca</h1>
+            <div class="nivel-selector">
+                <button onclick="seleccionarNivel('suave')">
+                    <i class="fas fa-smile"></i> Suave
+                </button>
+                <button onclick="seleccionarNivel('moderado')">
+                    <i class="fas fa-meh"></i> Moderado
+                </button>
+                <button onclick="seleccionarNivel('extremo')">
+                    <i class="fas fa-grin-tongue-wink"></i> Extremo
+                </button>
+            </div>
+            <button class="generar" onclick="generarPregunta()">Generar pregunta</button>
+            <div class="pregunta" id="pregunta"></div>
+        </div>
+    </div>
+
+    <!-- Script para generar preguntas -->
+    <script>
+        let nivelSeleccionado = 'suave'; // Nivel por defecto
+
+        // Lista de preguntas para "Yo nunca"
+        const frasesYoNunca = {
+            suave: [
+                "Yo nunca he sentido mariposas al recibir un mensaje coqueto.",
+                "Yo nunca he mirado a alguien y pensado 'qué haría si estuviera solo/a con él/ella'.",
+                "Yo nunca he probado robarle un beso a alguien que no se lo esperaba.",
+                "Yo nunca he tenido una conversación que subió de tono poco a poco.",
+                "Yo nunca he coqueteado con alguien solo por diversión.",
+                "Yo nunca he sentido que una canción describía perfectamente lo que quería hacer.",
+                "Yo nunca he usado perfume para atraer a alguien en especial.",
+                "Yo nunca he recibido un cumplido que me hizo sonrojar demasiado.",
+                "Yo nunca he sido la razón por la que alguien rompió sus propias reglas.",
+                "Yo nunca he jugado con el peligro de decir algo demasiado atrevido.",
+                "Yo nunca he dejado que alguien me hablara al oído solo para sentir escalofríos.",
+                "Yo nunca he sentido que el simple roce con alguien me ponía nervioso/a.",
+                "Yo nunca he jugado con la idea de que alguien me descubriera coqueteando.",
+                "Yo nunca he sentido que un beso me hacía olvidar todo lo demás.",
+                "Yo nunca he enviado un emoji con doble intención.",
+                "Yo nunca he cruzado miradas con alguien y sabido que algo iba a pasar.",
+                "Yo nunca he sentido que alguien me desarmaba con su presencia.",
+                "Yo nunca he usado la ropa de alguien para provocar.",
+                "Yo nunca he sentido que alguien me hacía falta en mi cama.",
+                "Yo nunca he probado dejar una nota atrevida escondida para alguien.",
+                "Yo nunca he jugado con la tensión entre dos personas solo por diversión.",
+                "Yo nunca he tenido que fingir que no quería algo cuando en realidad sí.",
+                "Yo nunca he recibido un mensaje coqueto a media noche.",
+                "Yo nunca he tenido que disimular después de una situación intensa.",
+                "Yo nunca he deseado que la ropa de alguien desapareciera mágicamente.",
+                "Yo nunca he probado susurrar algo atrevido en el oído de alguien.",
+                "Yo nunca he sentido que alguien jugaba con mi mente con solo palabras.",
+                "Yo nunca he tenido una noche que desearía poder repetir una y otra vez.",
+                "Yo nunca he sentido que alguien me leía la mente con lo que me decía.",
+                "Yo nunca he deseado con locura besar a alguien y no haberlo hecho.",
+            ],
+            moderado: [
+                "Yo nunca he recibido una foto demasiado atrevida en un momento inoportuno.",
+                "Yo nunca he hecho un striptease para alguien.",
+                "Yo nunca he tenido que contenerme en público porque el deseo era demasiado.",
+                "Yo nunca he probado hacerlo en la playa.",
+                "Yo nunca he enviado un mensaje caliente en el grupo equivocado.",
+                "Yo nunca he probado hacerlo en la ducha con alguien.",
+                "Yo nunca he sentido un deseo tan intenso que no pude esperar.",
+                "Yo nunca he usado mi ropa interior como un arma de seducción.",
+                "Yo nunca he sentido que alguien me hacía perder el control con solo una mirada.",
+                "Yo nunca he intentado seducir a alguien solo con palabras.",
+                "Yo nunca he recibido un masaje que terminó en algo más.",
+                "Yo nunca he jugado con alguien a ver quién provocaba más sin tocarse.",
+                "Yo nunca he hecho una apuesta con un premio atrevido.",
+                "Yo nunca he intentado hacer ruido a propósito para que me escucharan.",
+                "Yo nunca he probado hacerlo en un auto estacionado.",
+                "Yo nunca he tenido un sueño demasiado caliente con alguien inesperado.",
+                "Yo nunca he usado mi voz para poner a alguien en otro nivel de deseo.",
+                "Yo nunca he probado hacerlo en la cocina.",
+                "Yo nunca he jugado con alguien en una fiesta y nadie se dio cuenta.",
+                "Yo nunca he mirado a alguien y fantaseado sin que se diera cuenta.",
+                "Yo nunca he recibido un mensaje que me hizo querer salir corriendo a verlo/a.",
+                "Yo nunca he probado hacerlo en una hamaca.",
+                "Yo nunca he intentado mantenerme en silencio cuando era casi imposible.",
+                "Yo nunca he probado algo nuevo sin decirle a mi pareja antes.",
+                "Yo nunca he intentado seducir a alguien solo con caricias sutiles.",
+                "Yo nunca he jugado a que alguien tuviera el control total de la situación.",
+                "Yo nunca he dejado que la lujuria decidiera todo en un momento.",
+                "Yo nunca he probado hacerlo con la ropa puesta casi por completo.",
+                "Yo nunca he tentado a alguien cuando no podía hacer nada al respecto.",
+                "Yo nunca he fantaseado con repetir mi mejor experiencia.",
+            ],
+            extremo: [
+                "Yo nunca he tenido un encuentro en un lugar con cámaras de seguridad.",
+                "Yo nunca he probado hacerlo con más de una persona al mismo tiempo.",
+                "Yo nunca he tenido un encuentro con alguien y luego con otra persona el mismo día.",
+                "Yo nunca he sido atrapado/a en plena acción.",
+                "Yo nunca he usado esposas, vendas o ataduras en la cama.",
+                "Yo nunca he hecho un video demasiado atrevido con alguien.",
+                "Yo nunca he recibido o dado placer mientras alguien más estaba en la misma habitación.",
+                "Yo nunca he jugado con la idea de hacerlo con alguien prohibido.",
+                "Yo nunca he tenido un encuentro mientras estaba al teléfono con alguien más.",
+                "Yo nunca he hecho algo extremo en una videollamada.",
+                "Yo nunca he sentido adrenalina al hacerlo en un lugar ultra prohibido.",
+                "Yo nunca he probado hacerlo en un vehículo en movimiento.",
+                "Yo nunca he tenido un momento demasiado intenso en el baño de una fiesta.",
+                "Yo nunca he probado hacerlo en un elevador.",
+                "Yo nunca he usado mi boca de formas demasiado intensas en un lugar público.",
+                "Yo nunca he estado con alguien mientras otra persona en la misma casa no tenía idea.",
+                "Yo nunca he tenido un encuentro con alguien que apenas conocía.",
+                "Yo nunca he probado hacerlo en una piscina o jacuzzi.",
+                "Yo nunca he tenido un encuentro en el trabajo.",
+                "Yo nunca he usado disfraces o roleplay en un momento caliente.",
+                "Yo nunca he tenido que esconderme desnudo/a de alguien que llegó inesperadamente.",
+                "Yo nunca he hecho algo atrevido en una boda ajena.",
+                "Yo nunca he probado hacerlo en una azotea.",
+                "Yo nunca he tenido un encuentro en un avión.",
+                "Yo nunca he intentado tener un momento caliente en un cine.",
+                "Yo nunca he recibido un mensaje atrevido mientras estaba con mi familia.",
+                "Yo nunca he probado hacerlo en un balcón.",
+                "Yo nunca he tenido un encuentro en un vestidor de tienda.",
+                "Yo nunca he sentido placer solo con palabras y voz.",
+                "Yo nunca he probado hacerlo en una oficina.",
+                "Yo nunca he usado aceite o lubricantes comestibles en la cama.",
+                "Yo nunca he tenido una fantasía tan intensa que terminé cumpliéndola.",
+                "Yo nunca he probado hacerlo en el auto de alguien más.",
+                "Yo nunca he usado juguetes en pareja.",
+                "Yo nunca he probado hacerlo en una iglesia o cerca de una.",
+                "Yo nunca he intentado algo que pensé que era demasiado extremo para mí.",
+                "Yo nunca he probado hacerlo frente a un espejo gigante.",
+                "Yo nunca he dejado marcas en alguien a propósito.",
+                "Yo nunca he tenido una experiencia que al día siguiente me dio vergüenza recordar.",
+                "Yo nunca he probado hacerlo sin haber planeado absolutamente nada.",
+            ]
+        };
+
+        function seleccionarNivel(nivel) {
+            nivelSeleccionado = nivel;
+            const botones = document.querySelectorAll('.nivel-selector button');
+            botones.forEach(boton => boton.style.background = 'rgba(255, 255, 255, 0.2)');
+            event.target.style.background = 'rgba(255, 255, 255, 0.4)';
+        }
+
+        function generarPregunta() {
+            const preguntaElement = document.getElementById('pregunta');
+            const frases = frasesYoNunca[nivelSeleccionado];
+            const preguntaAleatoria = frases[Math.floor(Math.random() * frases.length)];
+            preguntaElement.innerText = preguntaAleatoria;
+        }
+    </script>
+</body>
+</html>

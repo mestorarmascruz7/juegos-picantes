@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ff6b6b">
+    <title>Verdad o Reto</title>
+    <style>
+        /* Animación de fondo */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(-45deg, #ff6b6b, #ff416c, #ff4b2b, #4b6cb7);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .menu a {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .menu a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .contenido {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .nivel-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .nivel-selector button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nivel-selector button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nivel-selector button:active {
+            transform: translateY(0);
+        }
+
+        .nivel-selector button i {
+            font-size: 1.5rem;
+        }
+
+        button.generar {
+            background: white;
+            color: #ff6b6b;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button.generar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        button.generar:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .pregunta {
+            margin-top: 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+    <!-- Iconos de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Menú de navegación -->
+        <div class="menu">
+            <a href="index.html">Inicio</a>
+            <a href="yo-nunca.html">Yo nunca</a>
+            <a href="verdad-reto.html">Verdad o Reto</a>
+            <a href="chupito.html">Frases o Chupito</a>
+            <a href="publicidad.html">Publicidad</a>
+        </div>
+
+        <!-- Contenido de "Verdad o Reto" -->
+        <div class="contenido">
+            <h1>Verdad o Reto</h1>
+            <div class="nivel-selector">
+                <button onclick="seleccionarNivel('suave')">
+                    <i class="fas fa-smile"></i> Suave
+                </button>
+                <button onclick="seleccionarNivel('moderado')">
+                    <i class="fas fa-meh"></i> Moderado
+                </button>
+                <button onclick="seleccionarNivel('extremo')">
+                    <i class="fas fa-grin-tongue-wink"></i> Extremo
+                </button>
+            </div>
+            <button class="generar" onclick="generarVerdadOReto()">Generar verdad o reto</button>
+            <div class="pregunta" id="pregunta"></div>
+        </div>
+    </div>
+
+    <!-- Script para generar verdades o retos -->
+    <script>
+        let nivelSeleccionado = 'suave'; // Nivel por defecto
+
+        // Lista de verdades y retos para "Verdad o Reto"
+        const verdadesRetos = {
+            suave: [
+                "Verdad: ¿Cuál ha sido tu cita más divertida?",
+                "Reto: Dile a alguien del grupo un cumplido bonito.",
+                "Verdad: ¿Qué es lo primero que notas en alguien que te atrae?",
+                "Reto: Comparte tu película romántica favorita.",
+                "Verdad: ¿Prefieres una cena romántica o una aventura al aire libre?",
+                "Reto: Canta una estrofa de una canción de amor.",
+                "Verdad: ¿Te gustan los detalles espontáneos en una relación?",
+                "Reto: Dibuja un corazón en un papel y dáselo a alguien del grupo.",
+                "Verdad: ¿Has recibido alguna vez una carta de amor?",
+                "Reto: Cuenta cuál es tu lugar favorito para una cita.",
+                "Verdad: ¿Cuál es el gesto más lindo que alguien ha hecho por ti?",
+                "Reto: Envía un mensaje bonito a alguien de tu familia.",
+                "Verdad: ¿Cómo describirías tu tipo ideal de cita?",
+                "Reto: Dile a alguien qué te gusta de su personalidad.",
+                "Verdad: ¿Te gusta más recibir cumplidos o hacerlos?",
+                "Reto: Escribe tres cosas que te hacen feliz y compártelas.",
+                "Verdad: ¿Cuál ha sido la sorpresa más bonita que te han dado?",
+                "Reto: Pregunta a alguien su color favorito y dile qué significa para ti.",
+                "Verdad: ¿Has sentido una conexión especial con alguien sin conocerlo mucho?",
+                "Reto: Sonríe a alguien del grupo durante 10 segundos.",
+                "Verdad: ¿Qué opinas de las declaraciones de amor inesperadas?",
+                "Reto: Cuenta una anécdota tierna de tu infancia.",
+                "Verdad: ¿Cuál es el lugar más especial en el que te han besado?",
+                "Reto: Dile a alguien del grupo cuál es su mejor cualidad.",
+                "Verdad: ¿Te gusta más un beso robado o un beso planeado?",
+                "Reto: Manda un mensaje de 'buenos días' a alguien especial.",
+                "Verdad: ¿Prefieres que te conquisten con palabras o con acciones?",
+                "Reto: Comparte la última foto bonita que tomaste.",
+                "Verdad: ¿Cómo describirías un momento inolvidable en una relación?",
+                "Reto: Dile a alguien qué piensas cuando lo ves sonreír.",
+            ],
+            moderado: [
+                "Verdad: ¿Cuál es tu mejor técnica de conquista?",
+                "Reto: Envía un emoji sugestivo a tu contacto más reciente.",
+                "Verdad: ¿Alguna vez has recibido un cumplido que te hizo sonrojar?",
+                "Reto: Da un beso en la mejilla a la persona de tu izquierda.",
+                "Verdad: ¿Te han rechazado alguna vez de una forma graciosa?",
+                "Reto: Cuenta tu anécdota más embarazosa en una cita.",
+                "Verdad: ¿Cuál es el gesto más romántico que has hecho por alguien?",
+                "Reto: Llama a alguien y dile un piropo bonito.",
+                "Verdad: ¿Te gusta más dar o recibir sorpresas?",
+                "Reto: Escribe un mensaje romántico a tu último match en una app de citas.",
+                "Verdad: ¿Cuál ha sido tu mejor cita hasta ahora?",
+                "Reto: Comparte la última conversación coqueta que tuviste.",
+                "Verdad: ¿Cuál es la manera más creativa en la que alguien te ha conquistado?",
+                "Reto: Envía un cumplido sincero a tres personas del grupo.",
+                "Verdad: ¿Prefieres planes espontáneos o citas planificadas?",
+                "Reto: Lee en voz alta el último mensaje que recibiste de alguien especial.",
+                "Verdad: ¿Has enviado una carta de amor alguna vez?",
+                "Reto: Dibuja un corazón en la mano de alguien del grupo.",
+                "Verdad: ¿Te gusta ser el primero en dar el primer paso?",
+                "Reto: Pregunta a alguien qué le gusta de ti.",
+                "Verdad: ¿Qué opinas de las declaraciones de amor en público?",
+                "Reto: Dile a alguien lo primero que pensaste cuando lo conociste.",
+                "Verdad: ¿Crees en el amor a primera vista?",
+                "Reto: Permite que alguien del grupo publique algo en tu estado.",
+                "Verdad: ¿Cuál ha sido la declaración de amor más bonita que has recibido?",
+                "Reto: Intercambia miradas con alguien durante 15 segundos sin reír.",
+                "Verdad: ¿Has sentido mariposas por alguien inesperado?",
+                "Reto: Simula pedir una cita con alguien del grupo.",
+                "Verdad: ¿Prefieres una noche de películas o una cena romántica?",
+                "Reto: Publica una historia con una frase romántica sin explicación.",
+            ],
+            extremo: [
+                "Verdad: ¿Cuál es tu fantasía más secreta?",
+                "Reto: Besa a alguien durante 10 segundos.",
+                "Verdad: ¿Cuál es el lugar más extraño donde has tenido relaciones?",
+                "Reto: Envía un mensaje subido de tono a un contacto al azar.",
+                "Verdad: ¿Te gustaría probar un trío?",
+                "Reto: Haz un striptease corto frente al grupo.",
+                "Verdad: ¿Has tenido un sueño erótico sobre alguien conocido?",
+                "Reto: Deja que alguien te haga una pregunta comprometedora y respóndela.",
+                "Verdad: ¿Has enviado un mensaje subido de tono por error?",
+                "Reto: Llama a tu ex y dile algo atrevido.",
+                "Verdad: ¿Qué es lo más atrevido que has hecho en público?",
+                "Reto: Envía una foto tuya con poca ropa a alguien del grupo.",
+                "Verdad: ¿Has usado juguetes en la intimidad?",
+                "Reto: Haz un baile sensual para alguien al azar.",
+                "Verdad: ¿Te atreverías a tener una cita a ciegas con alguien misterioso?",
+                "Reto: Simula un orgasmo en voz alta.",
+                "Verdad: ¿Has tenido una aventura de una noche?",
+                "Reto: Susurra algo provocador en el oído de alguien.",
+                "Verdad: ¿Cuál es tu mayor fantasía sexual aún no cumplida?",
+                "Reto: Permite que alguien te dé un masaje sensual por un minuto.",
+                "Verdad: ¿Has visto a alguien en una situación comprometedora sin que se diera cuenta?",
+                "Reto: Deja que alguien te venda los ojos y te toque la cara hasta reconocerte.",
+                "Verdad: ¿Cuál ha sido el lugar más peligroso donde lo has hecho?",
+                "Reto: Hazle un cumplido picante a alguien del grupo.",
+                "Verdad: ¿Te gustaría hacer un intercambio de parejas?",
+                "Reto: Recréate una escena romántica de una película con alguien.",
+                "Verdad: ¿Has estado con más de una persona en un solo día?",
+                "Reto: Tómate un shot de licor en el cuerpo de alguien más.",
+                "Verdad: ¿Has usado alguna vez una aplicación para citas con éxito?",
+                "Reto: Envía un audio atrevido a tu crush.",
+            ]
+        };
+
+        function seleccionarNivel(nivel) {
+            nivelSeleccionado = nivel;
+            const botones = document.querySelectorAll('.nivel-selector button');
+            botones.forEach(boton => boton.style.background = 'rgba(255, 255, 255, 0.2)');
+            event.target.style.background = 'rgba(255, 255, 255, 0.4)';
+        }
+
+        function generarVerdadOReto() {
+            const preguntaElement = document.getElementById('pregunta');
+            const verdadesRetosNivel = verdadesRetos[nivelSeleccionado];
+            const verdadORetoAleatorio = verdadesRetosNivel[Math.floor(Math.random() * verdadesRetosNivel.length)];
+            preguntaElement.innerText = verdadORetoAleatorio;
+        }
+    </script>
+</body>
+</html>
